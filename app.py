@@ -4,6 +4,7 @@ app.py
 MT-ENGINE: Simulador Táctico Avanzado — Final del Mundial 2026
 España vs Argentina | Domingo 19 de julio, MetLife Stadium.
 
+
     1. Configuración de página + tema visual   -> src/ui
     2. Datos de convocatoria y estadísticas reales -> src/data
     3. Cálculo de xG y simulación Monte Carlo   -> src/simulation
@@ -60,6 +61,17 @@ def main() -> None:
         len(JUGADORES_ESPAÑA),
         len(JUGADORES_ARGENTINA),
     )
+
+   
+    equipos_completos = len(controles["titulares_esp"]) == 11 and len(controles["titulares_arg"]) == 11
+    if not equipos_completos:
+        st.info(
+            "⏳ **Simulación en pausa.** Selecciona exactamente 11 titulares en cada "
+            "selección (en la barra lateral) para calcular el xG y las probabilidades. "
+            "Un equipo incompleto no tiene una plantilla real que evaluar."
+        )
+        st.stop()
+
 
     xg_esp, xg_arg = compute_match_xg(
         JUGADORES_ESPAÑA,
