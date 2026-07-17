@@ -262,7 +262,7 @@ def render_squad_reference(jugadores_esp: Dict[str, dict], jugadores_arg: Dict[s
 
 
 def render_methodology() -> None:
-    with st.expander("🛠️ Ver Sustento Metodológico de Impacto de Plantillas (Para Reclutadores)"):
+    with st.expander("🛠️ Ver Sustento Metodológico de Impacto de Plantillas "):
         st.markdown(
             """
             ### Arquitectura del Simulador de Plantillas
@@ -270,7 +270,7 @@ def render_methodology() -> None:
             Este motor no utiliza valores planos de xG estáticos, sino un modelo aditivo de **Sinergia Colectiva**
             calculado exclusivamente sobre los **26 jugadores convocados oficialmente** por cada selección.
 
-            **De dónde salen los números (honestidad ante todo):**
+            **De dónde salen los números:**
             Los coeficientes ofensivos ($of$) están calibrados con el **rendimiento real** de cada jugador en este
             Mundial 2026 — goles anotados en el torneo, minutos disputados y contexto de cada gol (ver panel de
             "Datos reales" arriba) — recopilados manualmente de fuentes públicas (FIFA.com, Futbolred, CNN, ESPN).
