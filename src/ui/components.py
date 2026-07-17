@@ -18,7 +18,7 @@ import streamlit as st
 
 from src.data.real_stats import FUENTES, FECHA_ACTUALIZACION, GOLEADORES_REAL_ARG, GOLEADORES_REAL_ESP, RESUMEN_REAL
 
-from datetime import datetime  # <-- Asegúrate de importar datetime al inicio de components.py
+from datetime import datetime, timezone, timedelta  # <-- Asegúrate de importar timezone y timedelta
 
 def render_header() -> None:
     st.markdown(
@@ -34,11 +34,15 @@ def render_header() -> None:
     )
     
    
-    FECHA_FINAL = datetime(2026, 7, 19, 19, 0, 0) 
-    ahora = datetime.now()
+    zona_horaria_partido = timezone(timedelta(hours=-5))
+    
+    # Fecha de la final con zona horaria definida: 19 de Julio de 2026 a las 19:00 (UTC-5)
+    FECHA_FINAL = datetime(2026, 7, 19, 19, 0, 0, tzinfo=zona_horaria_partido)
+    
+    # Hora actual con la misma zona horaria exacta para una comparación justa
+    ahora = datetime.now(zona_horaria_partido)
 
     if ahora < FECHA_FINAL:
-        # Calcular tiempo restante
         tiempo_restante = FECHA_FINAL - ahora
         dias = tiempo_restante.days
         horas, rem = divmod(tiempo_restante.seconds, 3600)
