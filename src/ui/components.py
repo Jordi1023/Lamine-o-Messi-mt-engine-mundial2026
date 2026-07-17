@@ -18,6 +18,7 @@ import streamlit as st
 
 from src.data.real_stats import FUENTES, FECHA_ACTUALIZACION, GOLEADORES_REAL_ARG, GOLEADORES_REAL_ESP, RESUMEN_REAL
 
+from datetime import datetime  # <-- Asegúrate de importar datetime al inicio de components.py
 
 def render_header() -> None:
     st.markdown(
@@ -31,14 +32,47 @@ def render_header() -> None:
         """,
         unsafe_allow_html=True,
     )
+    
+   
+    FECHA_FINAL = datetime(2026, 7, 19, 19, 0, 0) 
+    ahora = datetime.now()
+
+    if ahora < FECHA_FINAL:
+        # Calcular tiempo restante
+        tiempo_restante = FECHA_FINAL - ahora
+        dias = tiempo_restante.days
+        horas, rem = divmod(tiempo_restante.seconds, 3600)
+        minutos, _ = divmod(rem, 60)
+        
+        st.markdown(
+            f"""
+            <div style="text-align: center; background-color: rgba(30, 30, 30, 0.6); padding: 15px; border-radius: 10px; border: 1px dashed #555; margin-bottom: 25px;">
+                <span style="color: #FF4B4B; font-weight: bold; font-size: 1.1rem;">⏳ CUENTA REGRESIVA PARA EL SILBATAZO INICIAL:</span>
+                <h3 style="margin: 5px 0 0 0; color: #FFFFFF; font-family: monospace; font-size: 1.6rem;">
+                    {dias}d : {horas:02d}h : {minutos:02d}m
+                </h3>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+    else:
+        st.markdown(
+            """
+            <div style="text-align: center; background-color: rgba(225, 6, 19, 0.2); padding: 15px; border-radius: 10px; border: 1px solid #FF4B4B; margin-bottom: 25px;">
+                <span style="color: #FF4B4B; font-weight: bold; font-size: 1.2rem;">⚽ ¡LA GRAN FINAL ESTÁ EN CURSO / HA COMENZADO! ⚽</span>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
 
 
 def render_real_data_panel() -> None:
     with st.expander("📡 Datos reales del torneo (fuente y actualización) — abrir antes de simular", expanded=True):
         st.markdown(
-            "Esta final **ya está confirmada**: España y Argentina ganaron sus semifinales el 14 y 15 de julio "
+            "Esta final **ya está confirmada**: España 🇪🇦 y Argentina 🇦🇷 ganaron sus semifinales el 14 y 15 de julio "
             "(2-0 a Francia y 2-1 a Inglaterra, respectivamente) y se enfrentarán el **domingo 19 de julio**. "
-            "Los coeficientes de cada jugador en este simulador están calibrados con el rendimiento **real** de "
+            "Los coeficientes de cada jugador en este simulador están calibrados con el **RENDIMIENTO REAL** de "
             "cada selección en este Mundial — no son datos históricos genéricos ni una proyección de preferencias."
         )
         col_real1, col_real2 = st.columns(2)
