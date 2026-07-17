@@ -17,7 +17,7 @@ y proyecta la probabilidad de victoria con una simulación de Monte Carlo.
 - Permite ajustar clima, tarjetas rojas y quién abre el marcador para ver
   cómo cambian las probabilidades en vivo.
 
-## 🧠 Modelo estadístico (resumen honesto)
+## 🧠 Modelo estadístico 
 
 - **Poisson + Monte Carlo**, no cadenas de Markov: los goles son eventos
   discretos y poco frecuentes, así que Poisson es el estándar en analítica
@@ -60,7 +60,7 @@ mt-engine-mundial2026/
 La separación **datos / lógica / UI** permite testear `src/simulation` con
 `pytest` sin necesidad de levantar Streamlit.
 
-## 🚀 Cómo correrlo
+##  Cómo correrlo
 
 ```bash
 # 1. Clonar el repo
@@ -82,17 +82,11 @@ Esto te da una URL tipo `http://localhost:8501`, que **solo funciona en tu
 propia PC**. Para compartirla con cualquiera, despliega en
 [Streamlit Community Cloud](https://share.streamlit.io) conectando este repo.
 
-## ✅ Tests
+##  Tests
 
 ```bash
 pip install pytest
 pytest tests/ -v
 ```
 
-## 📌 Notas
 
-- Este proyecto fue desarrollado con asistencia de IA (Claude), iterando
-  sobre el modelo estadístico, la calibración con datos reales del torneo y
-  la arquitectura del código.
-- Uso ilustrativo / de portafolio de analítica de datos. No es una
-  herramienta de apuestas ni garantiza resultados.
