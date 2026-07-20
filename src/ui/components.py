@@ -281,7 +281,7 @@ def render_squad_reference(jugadores_esp: Dict[str, dict], jugadores_arg: Dict[s
 
 
 def render_methodology() -> None:
-    with st.expander("🛠️ Ver Sustento Metodológico de Impacto de Plantillas (Para Reclutadores)"):
+    with st.expander("🛠️ Ver Sustento Metodológico de Impacto de Plantillas "):
         st.markdown(
             """
             ### Arquitectura del Simulador de Plantillas
