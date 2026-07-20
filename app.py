@@ -4,7 +4,7 @@ app.py
 MT-ENGINE: Simulador Táctico Avanzado — Final del Mundial 2026
 España vs Argentina | Domingo 19 de julio, MetLife Stadium.
 
-
+Punto de entrada de la aplicación Streamlit. Este archivo solo orquesta:
     1. Configuración de página + tema visual   -> src/ui
     2. Datos de convocatoria y estadísticas reales -> src/data
     3. Cálculo de xG y simulación Monte Carlo   -> src/simulation
@@ -25,6 +25,7 @@ from src.data.squads import (
 from src.simulation.montecarlo import run_tactical_simulation
 from src.simulation.xg_model import compute_match_xg
 from src.ui.components import (
+    render_final_result_banner,
     render_header,
     render_live_status,
     render_methodology,
@@ -47,6 +48,7 @@ def main() -> None:
     inject_theme()
 
     render_header()
+    render_final_result_banner()
     render_real_data_panel()
 
     controles = render_sidebar_controls(
@@ -62,16 +64,19 @@ def main() -> None:
         len(JUGADORES_ARGENTINA),
     )
 
-   
+    # No tiene sentido futbolístico (ni estadístico) simular con un equipo
+    # incompleto -> se corta acá antes de calcular xG, en vez de solo avisar.
     equipos_completos = len(controles["titulares_esp"]) == 11 and len(controles["titulares_arg"]) == 11
     if not equipos_completos:
         st.info(
             "⏳ **Simulación en pausa.** Selecciona exactamente 11 titulares en cada "
-            "selección (en la barra lateral) para calcular el xG y las probabilidades. "
-            "Un equipo incompleto no tiene una plantilla real que evaluar."
+            "selección (en la barra lateral) para calcular el xG y las probabilidades.\n\n"
+            "¿Querías simular una **expulsión**? No quites jugadores del once inicial — "
+            "el 11 titular se mantiene fijo. Usa el contador **🔴 Tarjetas Rojas** más abajo "
+            "en la barra lateral (sección \"Eventos de Partido In-Play\"): ahí se calcula el "
+            "impacto real de jugar con 10 sin tener que tocar la alineación."
         )
         st.stop()
-
 
     xg_esp, xg_arg = compute_match_xg(
         JUGADORES_ESPAÑA,

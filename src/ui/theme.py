@@ -1,12 +1,11 @@
 """
 theme.py
 --------
-Estilo visual "dark premium" con fondo de estadio nocturno, textura de
-pizarra táctica y tarjetas con efecto glassmorphism.
+Estilo visual "dark premium" con fondo de estadio nocturno
 
-Nota técnica: Streamlit pinta el header, el contenedor principal y los
+Streamlit pinta el header, el contenedor principal y los
 iframes de los gráficos Vega/Altair en blanco por defecto, sin importar
-lo que se ponga en `.stApp`. Por eso el CSS de acá fuerza transparencia
+lo que se ponga en `.stApp`. El CSS de acá fuerza transparencia
 en toda la cadena de contenedores reales (`stAppViewContainer`,
 `stHeader`, `.block-container`, `stVegaLiteChart`, etc.), no solo en
 `.stApp`.

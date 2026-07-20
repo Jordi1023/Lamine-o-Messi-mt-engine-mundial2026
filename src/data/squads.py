@@ -27,17 +27,17 @@ JUGADORES_ESPAÑA = {
     "Aymeric Laporte":    {"of": 0.03, "def": 0.23, "pos": "Defensa"},
     "Pau Cubarsí":        {"of": 0.02, "def": 0.22, "pos": "Defensa"},
     "Marcos Llorente":    {"of": 0.10, "def": 0.13, "pos": "Defensa"},
-    "Pedro Porro":        {"of": 0.16, "def": 0.11, "pos": "Defensa"},  # 2 goles reales (Austria, Francia)
+    "Pedro Porro":        {"of": 0.16, "def": 0.11, "pos": "Defensa"},  # 2 goles 
     # Centrocampistas
     "Pedri":              {"of": 0.20, "def": 0.06, "pos": "Mediocampista"},
-    "Fabián Ruiz":        {"of": 0.16, "def": 0.09, "pos": "Mediocampista"},  # 1 gol real (Bélgica)
+    "Fabián Ruiz":        {"of": 0.16, "def": 0.09, "pos": "Mediocampista"},  # 1 gol 
     "Martín Zubimendi":   {"of": 0.08, "def": 0.22, "pos": "Mediocampista"},
     "Gavi":               {"of": 0.16, "def": 0.10, "pos": "Mediocampista"},
     "Rodri Hernández":    {"of": 0.12, "def": 0.25, "pos": "Mediocampista"},
-    "Mikel Merino":       {"of": 0.21, "def": 0.12, "pos": "Mediocampista"},  # 2 goles reales (Portugal, Bélgica)
+    "Mikel Merino":       {"of": 0.21, "def": 0.12, "pos": "Mediocampista"},  # 2 goles 
     "Álex Baena":         {"of": 0.17, "def": 0.04, "pos": "Mediocampista"},
     # Delanteros
-    "Mikel Oyarzabal":    {"of": 0.34, "def": 0.02, "pos": "Delantero"},  # 5 goles reales, máximo goleador de España
+    "Mikel Oyarzabal":    {"of": 0.34, "def": 0.02, "pos": "Delantero"},  # 5 goles 
     "Dani Olmo":          {"of": 0.23, "def": 0.03, "pos": "Delantero"},
     "Nico Williams":      {"of": 0.26, "def": 0.01, "pos": "Delantero"},
     "Yeremy Pino":        {"of": 0.18, "def": 0.00, "pos": "Delantero"},
@@ -55,24 +55,24 @@ JUGADORES_ARGENTINA = {
     # Defensas — récord real: 7 goles recibidos en 7 partidos (defensa más permeable que la de España)
     "Gonzalo Montiel":    {"of": 0.08, "def": 0.13, "pos": "Defensa"},
     "Nahuel Molina":      {"of": 0.09, "def": 0.10, "pos": "Defensa"},
-    "Lisandro Martínez":  {"of": 0.06, "def": 0.20, "pos": "Defensa"},  # 1 gol real (vs Egipto)
+    "Lisandro Martínez":  {"of": 0.06, "def": 0.20, "pos": "Defensa"},  # 1 gol 
     "Nicolás Otamendi":   {"of": 0.03, "def": 0.20, "pos": "Defensa"},
     "Leonardo Balerdi":   {"of": 0.02, "def": 0.15, "pos": "Defensa"},
-    "Cristian Romero":    {"of": 0.06, "def": 0.23, "pos": "Defensa"},  # 1 gol real (vs Egipto)
+    "Cristian Romero":    {"of": 0.06, "def": 0.23, "pos": "Defensa"},  # 1 gol 
     "Nicolás Tagliafico": {"of": 0.05, "def": 0.13, "pos": "Defensa"},
     "Facundo Medina":     {"of": 0.04, "def": 0.14, "pos": "Defensa"},
     # Mediocampistas
     "Leandro Paredes":    {"of": 0.10, "def": 0.17, "pos": "Mediocampista"},
-    "Alexis Mac Allister": {"of": 0.19, "def": 0.13, "pos": "Mediocampista"},  # 1 gol real (cabezazo vs Suiza)
+    "Alexis Mac Allister": {"of": 0.19, "def": 0.13, "pos": "Mediocampista"},  # 1 gol 
     "Rodrigo De Paul":    {"of": 0.11, "def": 0.20, "pos": "Mediocampista"},
-    "Giovani Lo Celso":   {"of": 0.19, "def": 0.06, "pos": "Mediocampista"},  # 1 gol real (vs Egipto)
+    "Giovani Lo Celso":   {"of": 0.19, "def": 0.06, "pos": "Mediocampista"},  # 1 gol 
     "Exequiel Palacios":  {"of": 0.13, "def": 0.15, "pos": "Mediocampista"},
-    "Enzo Fernández":     {"of": 0.19, "def": 0.16, "pos": "Mediocampista"},  # 2 goles reales, decisivo en la remontada vs Inglaterra
+    "Enzo Fernández":     {"of": 0.19, "def": 0.16, "pos": "Mediocampista"},  # 2 goles 
     "Valentín Barco":     {"of": 0.09, "def": 0.10, "pos": "Mediocampista"},
     # Delanteros
-    "Lionel Messi":       {"of": 0.42, "def": -0.03, "pos": "Delantero"},  # 8 goles reales, colíder de la Bota de Oro
-    "Julián Álvarez":     {"of": 0.20, "def": 0.05, "pos": "Delantero"},  # Mundial discreto: solo 1 gol real (vs Suiza)
-    "Lautaro Martínez":   {"of": 0.27, "def": 0.02, "pos": "Delantero"},  # 3 goles reales, muy determinante al cierre
+    "Lionel Messi":       {"of": 0.42, "def": -0.03, "pos": "Delantero"},  # 8 goles reales, mejor jugador de la historia
+    "Julián Álvarez":     {"of": 0.20, "def": 0.05, "pos": "Delantero"},  # solo 1 gol 
+    "Lautaro Martínez":   {"of": 0.27, "def": 0.02, "pos": "Delantero"},  # 3 goles 
     "Thiago Almada":      {"of": 0.17, "def": 0.01, "pos": "Delantero"},
     "Nicolás Paz":        {"of": 0.16, "def": 0.03, "pos": "Delantero"},
     "Nicolás González":   {"of": 0.18, "def": 0.06, "pos": "Delantero"},
@@ -83,12 +83,12 @@ JUGADORES_ARGENTINA = {
 # XI titular sugerido por defecto (4-3-3), dentro de la convocatoria oficial
 XI_SUGERIDO_ESP = [
     "Unai Simón", "Pedro Porro", "Aymeric Laporte", "Pau Cubarsí", "Marc Cucurella",
-    "Rodri Hernández", "Pedri", "Fabián Ruiz",
-    "Lamine Yamal", "Mikel Oyarzabal", "Nico Williams",
+    "Rodri Hernández", "Dani Olmo", "Fabián Ruiz",
+    "Lamine Yamal", "Mikel Oyarzabal", "Álex Baena",
 ]
 
 XI_SUGERIDO_ARG = [
-    "Emiliano Martínez", "Nahuel Molina", "Cristian Romero", "Nicolás Otamendi", "Nicolás Tagliafico",
+    "Emiliano Martínez", "Gonzalo Montiel", "Cristian Romero", "Lisandro Martínez", "Nicolás Tagliafico",
     "Rodrigo De Paul", "Enzo Fernández", "Alexis Mac Allister",
-    "Lionel Messi", "Julián Álvarez", "Lautaro Martínez",
+    "Lionel Messi", "Julián Álvarez", "Nicolás González",
 ]

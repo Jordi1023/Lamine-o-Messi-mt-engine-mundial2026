@@ -16,9 +16,55 @@ import altair as alt
 import pandas as pd
 import streamlit as st
 
-from src.data.real_stats import FUENTES, FECHA_ACTUALIZACION, GOLEADORES_REAL_ARG, GOLEADORES_REAL_ESP, RESUMEN_REAL
+from src.data.real_stats import (
+    FUENTES,
+    FECHA_ACTUALIZACION,
+    GOLEADORES_REAL_ARG,
+    GOLEADORES_REAL_ESP,
+    RESULTADO_FINAL,
+    RESUMEN_REAL,
+)
 
-from datetime import datetime, timezone, timedelta  # <-- Asegúrate de importar timezone y timedelta
+
+def render_final_result_banner() -> None:
+    """Banner con el resultado real de la final, si ya se jugó."""
+    if not RESULTADO_FINAL.get("jugado"):
+        return
+    st.markdown(
+        f"""
+        <div class="metric-card" style="border-top: 5px solid #F1BF00; text-align:center; margin-bottom:24px;">
+            <h2 style="margin:0;">🏆 {RESULTADO_FINAL['campeon']} es Campeona del Mundo 2026</h2>
+            <p style="margin:6px 0 0; font-size:1.1rem;"><b>{RESULTADO_FINAL['marcador']}</b></p>
+            <p style="margin:4px 0 0; color:#CCCCCC; font-size:14px;">
+                Gol: {RESULTADO_FINAL['goleador']} · {RESULTADO_FINAL['detalle']}
+            </p>
+            <p style="margin:2px 0 0; color:#888; font-size:12px;">{RESULTADO_FINAL['fecha']}</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    with st.expander("🔍 ¿Acertó el modelo? — análisis post-partido", expanded=False):
+        st.markdown(
+            """
+            **Lo que acertó:** el modelo daba a España como favorita en la mayoría de configuraciones
+            de titulares (por su récord defensivo real de 1 gol recibido en 7 partidos previos), y España
+            efectivamente ganó. También calculaba un partido de **pocos goles** (xG cercano a 1 por equipo),
+            coherente con un 1-0.
+
+            **Lo que NO acertó / no podía acertar:**
+            - No predijo el marcador exacto ni que se necesitaría prórroga.
+            - No predijo que Ferrán Torres sería el goleador (el modelo lo tenía como aporte ofensivo
+              moderado, no como principal candidato — eso lo tenía Oyarzabal).
+            - No predijo la expulsión de Enzo Fernández. Eso solo se puede *simular* manualmente con el
+              contador de Tarjetas Rojas después de que pasa, no anticiparlo.
+
+            **Conclusión :** un modelo de Poisson + Monte Carlo con datos reales del torneo puede
+            orientar razonablemente hacia quién es favorito y si el partido será cerrado o no — pero
+            **no predice eventos puntuales** (goleador, expulsiones, tiempo exacto del gol). Eso requeriría
+            un modelo completamente distinto (simulación evento a evento, no agregada). 
+            """
+        )
+
 
 def render_header() -> None:
     st.markdown(
@@ -26,58 +72,22 @@ def render_header() -> None:
         <div class="dashboard-header">
             <h1 style='margin:0; font-size: 2.7rem;'>⚡ MT-ENGINE: Simulador Táctico Avanzado</h1>
             <p style='margin:5px 0 0 0; color:#AAAAAA; font-size:1.1rem;'>
-                Final REAL del Mundial 2026 | España vs Argentina — Domingo 19 de julio, MetLife Stadium (Nueva Jersey)
+                Mundial 2026 | España vs Argentina — Final jugada el 19 de julio en el MetLife Stadium (Nueva Jersey)
             </p>
         </div>
         """,
         unsafe_allow_html=True,
     )
-    
-   
-    zona_horaria_partido = timezone(timedelta(hours=-5))
-    
-    # Fecha de la final con zona horaria definida: 19 de Julio de 2026 a las 19:00 (UTC-5)
-    FECHA_FINAL = datetime(2026, 7, 19, 19, 0, 0, tzinfo=zona_horaria_partido)
-    
-    # Hora actual con la misma zona horaria exacta para una comparación justa
-    ahora = datetime.now(zona_horaria_partido)
-
-    if ahora < FECHA_FINAL:
-        tiempo_restante = FECHA_FINAL - ahora
-        dias = tiempo_restante.days
-        horas, rem = divmod(tiempo_restante.seconds, 3600)
-        minutos, _ = divmod(rem, 60)
-        
-        st.markdown(
-            f"""
-            <div style="text-align: center; background-color: rgba(30, 30, 30, 0.6); padding: 15px; border-radius: 10px; border: 1px dashed #555; margin-bottom: 25px;">
-                <span style="color: #FF4B4B; font-weight: bold; font-size: 1.1rem;">⏳ CUENTA REGRESIVA PARA EL SILBATAZO INICIAL:</span>
-                <h3 style="margin: 5px 0 0 0; color: #FFFFFF; font-family: monospace; font-size: 1.6rem;">
-                    {dias}d : {horas:02d}h : {minutos:02d}m
-                </h3>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-    else:
-        st.markdown(
-            """
-            <div style="text-align: center; background-color: rgba(225, 6, 19, 0.2); padding: 15px; border-radius: 10px; border: 1px solid #FF4B4B; margin-bottom: 25px;">
-                <span style="color: #FF4B4B; font-weight: bold; font-size: 1.2rem;">⚽ ¡LA GRAN FINAL ESTÁ EN CURSO / HA COMENZADO! ⚽</span>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
 
 
 def render_real_data_panel() -> None:
-    with st.expander("📡 Datos reales del torneo (fuente y actualización) — abrir antes de simular", expanded=True):
+    with st.expander("📡 Datos reales del torneo (fuente y actualización)", expanded=False):
         st.markdown(
-            "Esta final **ya está confirmada**: España 🇪🇦 y Argentina 🇦🇷 ganaron sus semifinales el 14 y 15 de julio "
-            "(2-0 a Francia y 2-1 a Inglaterra, respectivamente) y se enfrentarán el **domingo 19 de julio**. "
-            "Los coeficientes de cada jugador en este simulador están calibrados con el **RENDIMIENTO REAL** de "
-            "cada selección en este Mundial — no son datos históricos genéricos ni una proyección de preferencias."
+            "La final **ya se jugó**: España se coronó campeona del Mundo 2026 tras vencer a Argentina "
+            "en la final del domingo 19 de julio. Los coeficientes de cada jugador en este simulador están "
+            "calibrados con el rendimiento **real** de cada selección durante todo el torneo — no son datos "
+            "históricos genéricos ni una proyección de preferencias. El simulador sigue activo para explorar "
+            "escenarios hipotéticos ('¿y si...'), pero ya no es una predicción — es una herramienta retrospectiva."
         )
         col_real1, col_real2 = st.columns(2)
         for pais, col in [("España", col_real1), ("Argentina", col_real2)]:
@@ -86,7 +96,7 @@ def render_real_data_panel() -> None:
                 st.markdown(f"**{pais}** — {r['PJ']} PJ · {r['V']}V {r['E']}E {r['D']}D · **{r['GF']} GF / {r['GC']} GC**")
                 st.caption(" → ".join(r["camino"]))
 
-        st.markdown("**Goleadores reales de este Mundial (no genéricos):**")
+        st.markdown("**Goleadores reales de este Mundial :**")
         col_gol1, col_gol2 = st.columns(2)
         with col_gol1:
             st.caption("🇪🇸 " + ", ".join(f"{n} ({g})" for n, g in GOLEADORES_REAL_ESP.items()))
@@ -122,7 +132,11 @@ def render_sidebar_controls(
         "Selecciona los 11 titulares de España:",
         options=list(jugadores_esp.keys()),
         default=xi_sugerido_esp,
-        help="Solo aparecen los 26 futbolistas realmente convocados por Luis de la Fuente.",
+        help=(
+            "Solo aparecen los 26 futbolistas realmente convocados por Luis de la Fuente. "
+            "El 11 titular se mantiene fijo durante todo el partido: para simular una "
+            "expulsión NO quites jugadores de acá, usa el contador de Tarjetas Rojas más abajo."
+        ),
         key="titulares_esp",
     )
 
@@ -131,11 +145,16 @@ def render_sidebar_controls(
         "Selecciona los 11 titulares de Argentina:",
         options=list(jugadores_arg.keys()),
         default=xi_sugerido_arg,
-        help="Solo aparecen los 26 futbolistas realmente convocados por Lionel Scaloni.",
+        help=(
+            "Solo aparecen los 26 futbolistas realmente convocados por Lionel Scaloni. "
+            "El 11 titular se mantiene fijo durante todo el partido: para simular una "
+            "expulsión NO quites jugadores de acá, usa el contador de Tarjetas Rojas más abajo."
+        ),
         key="titulares_arg",
     )
 
     st.sidebar.header("⚠️ Eventos de Partido In-Play")
+    st.sidebar.caption("Para simular una expulsión, sube el contador de tarjetas rojas — no edites el 11 titular de arriba.")
     clima = st.sidebar.select_slider("🌦️ Estado de la Cancha / Clima", options=["Rápida (Seca)", "Normal", "Pesada (Lluvia)"])
     expulsados_esp = st.sidebar.number_input("🔴 Tarjetas Rojas España", min_value=0, max_value=4, value=0, step=1)
     expulsados_arg = st.sidebar.number_input("🔴 Tarjetas Rojas Argentina", min_value=0, max_value=4, value=0, step=1)
@@ -262,7 +281,7 @@ def render_squad_reference(jugadores_esp: Dict[str, dict], jugadores_arg: Dict[s
 
 
 def render_methodology() -> None:
-    with st.expander("🛠️ Ver Sustento Metodológico de Impacto de Plantillas "):
+    with st.expander("🛠️ Ver Sustento Metodológico de Impacto de Plantillas (Para Reclutadores)"):
         st.markdown(
             """
             ### Arquitectura del Simulador de Plantillas
@@ -270,13 +289,12 @@ def render_methodology() -> None:
             Este motor no utiliza valores planos de xG estáticos, sino un modelo aditivo de **Sinergia Colectiva**
             calculado exclusivamente sobre los **26 jugadores convocados oficialmente** por cada selección.
 
-            **De dónde salen los números:**
+            **De dónde salen los números? :**
             Los coeficientes ofensivos ($of$) están calibrados con el **rendimiento real** de cada jugador en este
             Mundial 2026 — goles anotados en el torneo, minutos disputados y contexto de cada gol (ver panel de
             "Datos reales" arriba) — recopilados manualmente de fuentes públicas (FIFA.com, Futbolred, CNN, ESPN).
             Los coeficientes defensivos ($def$) combinan el récord defensivo real del equipo (España recibió solo 1
-            gol en 7 partidos; Argentina recibió 7) con un criterio experto sobre el rol táctico de cada jugador,
-            ya que no existe una métrica pública desagregada por futbolista con la misma calidad que los goles.
+            gol en 7 partidos; Argentina recibió 7).
             **Esto NO es un feed de datos en vivo**: es un snapshot construido a mano el 15 de julio de 2026, antes
             de la final. Si algo cambia (lesiones, decisiones técnicas de última hora), el modelo no se entera solo.
 
@@ -292,12 +310,12 @@ def render_methodology() -> None:
                La probabilidad cambia una vez que se rompe el marcador, escalando un factor multiplicativo simple.
                *(Nota honesta: no es una actualización bayesiana formal con prior/posterior, es una heurística.)*
 
-            4. **Por qué Monte Carlo + Poisson y no una cadena de Markov:**
+            4. **Por qué Monte Carlo + Poisson y no una cadena de Markov?:**
                Los goles en un partido son eventos discretos y poco frecuentes: Poisson es el estándar en analítica
                deportiva para este tipo de conteo. Una cadena de Markov tendría sentido para modelar transiciones de
                estado minuto a minuto (posesión → tiro → gol), que no es el alcance de esta versión.
 
-            **Límite honesto del modelo:** ningún simulador estático predice sorpresas — y este Mundial ya nos enseñó
+            **Límite del modelo:** ningún simulador estático predice sorpresas — y este Mundial ya nos enseñó
             esa lección con el 0-0 de España ante Cabo Verde en fase de grupos. Úsalo como herramienta analítica y de
             portafolio, no como garantía de resultado.
             """,
